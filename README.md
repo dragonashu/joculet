@@ -17,7 +17,10 @@ Use the arrow keys to controle the avatar.
 
 For each successful attempt to reach the water, the player will receive 50 points and level up.
 
+# Install
 
+Download or clone the repository from https://github.com/dragonashu/joculet.git.
+Open the arcade.html file in your browser.
 
 **Good Luck**
 

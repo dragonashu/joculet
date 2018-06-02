@@ -1,4 +1,4 @@
-
+'use strict'
 // Enemies our player must avoid
 
 window.onload = function() {
