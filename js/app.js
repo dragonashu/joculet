@@ -1,28 +1,23 @@
 'use strict'
 // Enemies our player must avoid
+var level = 0;
 
+//character configuration and game initiation 
 window.onload = function() {
-
     displayMessage('Start game by clicking start');
-
     document.querySelector('#left').onclick = function(){
        shuf(this.id);
     };
     document.querySelector('#right').onclick = function(){
         shuf(this.id);
     };
-
-
     document.querySelector('#myBtn').onclick = function(){
-       
         getEnemies();
         document.querySelector('#id01').style.display='none';
-
-    };
-    
-    
+    };       
 };
 
+//searching the path to the chosen image in the array of available - images
 function shuf(id){
     var img = document.querySelector('#character').getAttribute('src');
     console.log(typeof img);
@@ -30,39 +25,37 @@ function shuf(id){
     selectCharacter(img, id);
 }
 
+//changing the character image when game starts
 function changeImg(src){
-
     var path = 'images/'+src;
     document.querySelector('#character').setAttribute('src',path);
-    
-    console.log(typeof path)
     player.changeLooks(path); 
-
 }
 
 function displayMessage(message){
     document.querySelector('#id01').style.display='block';
     document.querySelector('.prompt').innerHTML = message;
-
 }
 
+function Character(){
+    // Draw the enemy on the screen, required method for game
+    this.render = function render() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    };
+}
 var Enemy = function(x, y) {
     // Variables applied to each of our instances go here,
     this.x = x;
     this.y = y;
-
-    if(level < 4){
-        console.log(level+"test")
-    this.speed = Math.floor(Math.random() * (300)) + 80 ;
-    console.log(this.speed);
-    // we've provided one for you to get started
-    }else {
-        this.speed = 500;
-        console.log(this.speed);
-    }
+    this.render = Character; // inherits the superclass render method
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    this.render();
+    this.speed = Math.floor(Math.random() * (300)) + 80 ;
+    
+  
+    
 };
 
 // Update the enemy's position, required method for game
@@ -78,11 +71,9 @@ Enemy.prototype.update = function(dt) {
     // all computers.
 };
 
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
 
+
+// enemy collision and score reductor
 Enemy.prototype.collisionCheck = function(player) {
  if (player.x < this.x + 55 &&
         player.x + 55> this.x &&
@@ -96,14 +87,16 @@ Enemy.prototype.collisionCheck = function(player) {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+
 var Player = function(x, y) {
     this.x = x;
     this.y = y;
     this.sprite = 'images/char-boy.png';
+    this.render = Character; //inherits the superclass render method
+    this.render();
 };
-console.log()
-var level = 0;
 
+//change player appearance method
 Player.prototype.changeLooks = function(path){
     this.sprite = path;
 };
@@ -124,10 +117,6 @@ Player.prototype.update = function(dt){
 
 };
 
-Player.prototype.render = function(){
-    
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
 
 Player.prototype.handleInput = function(key){
     switch(key) {
